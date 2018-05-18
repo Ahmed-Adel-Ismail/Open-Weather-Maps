@@ -4,8 +4,6 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.reactive.owm.App;
-
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 

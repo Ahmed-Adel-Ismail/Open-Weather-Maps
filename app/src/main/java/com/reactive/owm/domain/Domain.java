@@ -12,32 +12,36 @@ import com.reactive.owm.domain.database.DatabaseGatewayInitializer;
 import com.reactive.owm.domain.server.ServerGateway;
 import com.reactive.owm.domain.server.ServerGatewayInitializer;
 
+import io.reactivex.Maybe;
+import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.SingleSubject;
 
 @SuppressLint("CheckResult")
 public class Domain {
 
 
-    private final SingleSubject<DatabaseGateway> database = SingleSubject.create();
-    private final SingleSubject<ServerGateway> server = SingleSubject.create();
+    private final MaybeSubject<DatabaseGateway> database = MaybeSubject.create();
+    private final MaybeSubject<ServerGateway> server = MaybeSubject.create();
 
 
     public Domain(Context context) {
 
         new ServerGatewayInitializer()
                 .apply(context)
+                .toMaybe()
                 .subscribe(server);
 
         new DatabaseGatewayInitializer()
                 .apply(context)
+                .toMaybe()
                 .subscribe(database);
     }
 
-    public SingleSubject<DatabaseGateway> getDatabase() {
+    public Maybe<DatabaseGateway> getDatabase() {
         return database;
     }
 
-    public SingleSubject<ServerGateway> getServer() {
+    public Maybe<ServerGateway> getServer() {
         return server;
     }
 }

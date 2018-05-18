@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.reactive.owm.R;
 import com.reactive.owm.presentation.components.ViewModelInitializer;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class SplashActivity extends AppCompatActivity {
@@ -43,8 +46,12 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private Disposable bindTextView(BehaviorSubject<Integer> progressingLabel) {
+        TextView textView = findViewById(R.id.splash_label);
         return progressingLabel.share()
-                .subscribe();
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(String::valueOf)
+                .defaultIfEmpty("")
+                .subscribe(textView::setText);
     }
 
     @Override

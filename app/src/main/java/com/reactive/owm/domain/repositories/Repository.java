@@ -3,13 +3,15 @@ package com.reactive.owm.domain.repositories;
 import com.reactive.owm.domain.Domain;
 
 import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.Scheduler;
 
-public class Repository {
+class Repository {
 
-    private final Maybe<Domain> domain;
+    final Maybe<Domain> domain;
+    final Scheduler scheduler;
 
-    protected Repository(Maybe<Domain> domain) {
+    Repository(Maybe<Domain> domain, Scheduler scheduler) {
         this.domain = domain;
+        this.scheduler = scheduler;
     }
 }
