@@ -10,11 +10,11 @@ import java.util.concurrent.Callable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 
-public class NetworkAvailability implements Callable<Single<Boolean>> {
+class NetworkAvailability implements Callable<Single<Boolean>> {
 
     private final WeakReference<Context> contextReference;
 
-    public NetworkAvailability(Context context) {
+    NetworkAvailability(Context context) {
         this.contextReference = new WeakReference<>(context);
     }
 

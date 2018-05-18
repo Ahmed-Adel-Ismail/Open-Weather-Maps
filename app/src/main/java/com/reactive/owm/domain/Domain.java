@@ -2,6 +2,7 @@ package com.reactive.owm.domain;
 
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 
@@ -21,14 +22,14 @@ public class Domain {
     private final SingleSubject<ServerGateway> server = SingleSubject.create();
 
 
-    public Domain(App app) {
+    public Domain(Context context) {
 
         new ServerGatewayInitializer()
-                .apply(app)
+                .apply(context)
                 .subscribe(server);
 
         new DatabaseGatewayInitializer()
-                .apply(app)
+                .apply(context)
                 .subscribe(database);
     }
 

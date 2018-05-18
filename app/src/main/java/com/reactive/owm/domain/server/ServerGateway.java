@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 public interface ServerGateway {
 
-    String OPEN_WEATHER_MAPS_BASE_URL = "http://api.openweathermap.org";
+
 
     @GET("/data/2.5/forecast")
     Single<ForecastsResponse> requestFiveDaysForecasts(@Query("id") Long id);
