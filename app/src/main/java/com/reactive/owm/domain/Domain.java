@@ -32,11 +32,6 @@ public class Domain {
                 .subscribe(database);
     }
 
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    public Domain() {
-    }
-
-
     public SingleSubject<DatabaseGateway> getDatabase() {
         return database;
     }
