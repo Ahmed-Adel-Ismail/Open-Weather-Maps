@@ -1,8 +1,10 @@
 package com.reactive.owm.domain.repositories;
 
 import com.reactive.owm.domain.Domain;
+import com.reactive.owm.domain.database.DatabaseGateway;
 
 import io.reactivex.Maybe;
+import io.reactivex.MaybeSource;
 import io.reactivex.Scheduler;
 
 class Repository {
@@ -14,4 +16,5 @@ class Repository {
         this.domain = domain;
         this.scheduler = scheduler;
     }
+
 }
