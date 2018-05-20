@@ -2,7 +2,7 @@ package com.reactive.owm.domain.server;
 
 import android.content.Context;
 
-import com.reactive.owm.App;
+import java.io.IOException;
 
 import io.reactivex.Single;
 import io.reactivex.functions.Function;

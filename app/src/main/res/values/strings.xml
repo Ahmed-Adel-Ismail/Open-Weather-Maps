@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">OpenWeatherMaps</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="supported_cities">Supported cities :</string>
+    <string name="no_cities_supported">No cities supported</string>
+    <string name="please_wait">Please wait</string>
 </resources>

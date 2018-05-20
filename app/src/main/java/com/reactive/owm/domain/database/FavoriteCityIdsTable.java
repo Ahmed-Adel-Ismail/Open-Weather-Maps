@@ -14,6 +14,7 @@ import io.reactivex.Flowable;
 @Dao
 public interface FavoriteCityIdsTable {
 
+
     @Query("select * from FavoriteCityId")
     Flowable<List<FavoriteCityId>> queryFavoruteCityIds();
 

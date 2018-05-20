@@ -1,21 +1,20 @@
 package com.reactive.owm.domain.database;
 
-import android.annotation.SuppressLint;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
-import com.reactive.owm.App;
-import com.reactive.owm.domain.Domain;
-import com.reactive.owm.domain.components.CitiesUpdaterFromFile;
-import com.reactive.owm.entities.City;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import io.reactivex.Single;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
+
 
 public class DatabaseGatewayInitializer implements Function<Context, Single<DatabaseGateway>> {
 
@@ -23,32 +22,75 @@ public class DatabaseGatewayInitializer implements Function<Context, Single<Data
 
     @Override
     public Single<DatabaseGateway> apply(Context context) {
-        return Single.defer(() -> buildDatabase(context));
-    }
-
-    private Single<DatabaseGateway> buildDatabase(Context context) {
         return Single.just(Room.databaseBuilder(context, DatabaseGateway.class, DATABASE_NAME))
-                .doOnSuccess(builder -> builder.addCallback(updateCitiesFromFile()))
+                .doOnSuccess(builder -> builder.addCallback(updateCitiesFromAssets(context)))
                 .map(RoomDatabase.Builder::build);
     }
 
-    @NonNull
-    private RoomDatabase.Callback updateCitiesFromFile() {
+    private RoomDatabase.Callback updateCitiesFromAssets(Context context) {
         return new RoomDatabase.Callback() {
-            @SuppressLint("CheckResult")
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                try {
+                    copyDatabaseFromAssets(context);
+                } catch (IOException e) {
+                    Log.e("DatabaseGateway", "failed to copy database", e);
+                }
                 super.onCreate(db);
-                App.getInstance()
-                        .subscribeOn(Schedulers.single())
-                        .observeOn(Schedulers.single())
-                        .flatMap(App::getDomain)
-                        .flatMap(Domain::getDatabase)
-                        .map(DatabaseGateway::getCitiesTable)
-                        .map(citiesTable -> (Consumer<City>) citiesTable::insert)
-                        .subscribe(new CitiesUpdaterFromFile(), Throwable::printStackTrace);
             }
         };
+    }
+
+    private void copyDatabaseFromAssets(Context context) throws IOException {
+        File assetsFile = context.getDatabasePath(DATABASE_NAME);
+        if (!assetsFile.exists()) {
+            copy(context, assetsFile);
+        }
+    }
+
+    private void copy(Context context, File assetsFile) throws IOException {
+        InputStream assetsFileStream = null;
+        FileOutputStream databaseFileStream = null;
+        try {
+            assetsFileStream = context.getAssets().open(DATABASE_NAME);
+            databaseFileStream = new FileOutputStream(assetsFile);
+            databaseFileStream.write(assetsFile(assetsFileStream));
+        } finally {
+            closeStreams(assetsFileStream, databaseFileStream);
+        }
+    }
+
+    private byte[] assetsFile(InputStream assetsFileInputStream) throws IOException {
+        int size = assetsFileInputStream.available();
+        byte[] buffer = new byte[size];
+        assetsFileInputStream.read(buffer);
+        return buffer;
+    }
+
+    private void closeStreams(InputStream assetsFileStream, FileOutputStream databaseFileStream) {
+        if (assetsFileStream != null) {
+            closeAssetsFileStream(assetsFileStream);
+        }
+
+        if (databaseFileStream != null) {
+            closeDatabaseFileStream(databaseFileStream);
+        }
+    }
+
+    private void closeAssetsFileStream(InputStream assetsFileStream) {
+        try {
+            assetsFileStream.close();
+        } catch (IOException e) {
+            Log.e("DatabaseGateway", "failed to close assetsFileStream", e);
+        }
+    }
+
+    private void closeDatabaseFileStream(FileOutputStream databaseFileStream) {
+        try {
+            databaseFileStream.close();
+        } catch (IOException e) {
+            Log.e("DatabaseGateway", "failed to close databaseFileStream", e);
+        }
     }
 
 

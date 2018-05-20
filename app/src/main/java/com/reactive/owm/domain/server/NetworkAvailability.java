@@ -9,6 +9,7 @@ import java.util.concurrent.Callable;
 
 import io.reactivex.Maybe;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 class NetworkAvailability implements Callable<Single<Boolean>> {
 
@@ -20,19 +21,17 @@ class NetworkAvailability implements Callable<Single<Boolean>> {
 
     @Override
     public Single<Boolean> call() {
-        return Single.defer(this::isNetworkAvailable);
-
-    }
-
-    private Single<Boolean> isNetworkAvailable() {
         return Maybe.just(contextReference)
+                .observeOn(Schedulers.computation())
                 .filter(reference -> reference.get() != null)
                 .map(WeakReference::get)
                 .map(this::toConnectivityManager)
                 .map(ConnectivityManager::getActiveNetworkInfo)
                 .map(NetworkInfo::isConnected)
                 .toSingle(false);
+
     }
+
 
     private ConnectivityManager toConnectivityManager(Context context) {
         return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

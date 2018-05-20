@@ -11,10 +11,11 @@ import com.reactive.owm.entities.City;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 @Dao
 public interface CitiesTable {
+
 
     @Query("select * from City where City.name like :fuzzyName")
     Flowable<List<City>> queryCityByName(String fuzzyName);
@@ -23,7 +24,7 @@ public interface CitiesTable {
     DataSource.Factory<Integer, City> queryAll();
 
     @Query("select count(*) from City ")
-    Flowable<Integer> queryCitiesCount();
+    Single<Integer> queryCitiesCount();
 
     @Query("select * from City where City.name == :id")
     Flowable<List<City>> queryCityById(Long id);

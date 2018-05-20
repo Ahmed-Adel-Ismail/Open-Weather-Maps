@@ -17,7 +17,7 @@ class AppKeyInterceptor implements Callable<Single<Interceptor>> {
 
     @Override
     public Single<Interceptor> call() {
-        return Single.defer(() -> Single.just(this::intercept));
+        return Single.just(this::intercept);
     }
 
     private Response intercept(Interceptor.Chain chain) {

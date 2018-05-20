@@ -20,21 +20,12 @@ import io.reactivex.subjects.SingleSubject;
 public class Domain {
 
 
-    private final MaybeSubject<DatabaseGateway> database = MaybeSubject.create();
-    private final MaybeSubject<ServerGateway> server = MaybeSubject.create();
+    private final Maybe<DatabaseGateway> database;
+    private final Maybe<ServerGateway> server;
 
-
-    public Domain(Context context) {
-
-        new ServerGatewayInitializer()
-                .apply(context)
-                .toMaybe()
-                .subscribe(server);
-
-        new DatabaseGatewayInitializer()
-                .apply(context)
-                .toMaybe()
-                .subscribe(database);
+    public Domain(Maybe<DatabaseGateway> database, Maybe<ServerGateway> server) {
+        this.database = database;
+        this.server = server;
     }
 
     public Maybe<DatabaseGateway> getDatabase() {
