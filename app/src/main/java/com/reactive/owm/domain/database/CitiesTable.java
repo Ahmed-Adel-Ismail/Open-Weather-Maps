@@ -21,15 +21,12 @@ public interface CitiesTable {
     Flowable<List<City>> queryCityByName(String fuzzyName);
 
     @Query("select * from City order by City.name")
-    DataSource.Factory<Integer, City> queryAll();
+    DataSource.Factory<Integer, City> queryAllCities();
 
     @Query("select count(*) from City ")
     Single<Integer> queryCitiesCount();
 
-    @Query("select * from City where City.name == :id")
-    Flowable<List<City>> queryCityById(Long id);
-
-    @Insert
-    void insert(City city);
+    @Query("select * from City where City.id in (:ids)")
+    Flowable<List<City>> queryCitiesByIds(List<Long> ids);
 
 }
