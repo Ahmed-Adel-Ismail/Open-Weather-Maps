@@ -18,12 +18,7 @@ public class CitiesCountRequesterTest {
         BehaviorSubject<Boolean> progressing = BehaviorSubject.createDefault(true);
         BehaviorSubject<Integer> citiesCount = BehaviorSubject.create();
 
-        new CitiesCountRequester() {
-            @Override
-            Single<Integer> queryCitiesCount() {
-                return Single.just(10);
-            }
-        }.apply(progressing, citiesCount);
+        new CitiesCountRequester(Single.just(10)).apply(progressing, citiesCount);
 
         assertTrue(citiesCount.getValue() == null);
 
@@ -36,12 +31,7 @@ public class CitiesCountRequesterTest {
         BehaviorSubject<Boolean> progressing = BehaviorSubject.createDefault(false);
         BehaviorSubject<Integer> citiesCount = BehaviorSubject.create();
 
-        new CitiesCountRequester() {
-            @Override
-            Single<Integer> queryCitiesCount() {
-                return Single.just(10);
-            }
-        }.apply(progressing, citiesCount);
+        new CitiesCountRequester(Single.just(10)).apply(progressing, citiesCount);
 
         assertEquals(Integer.valueOf(10), citiesCount.getValue());
 
@@ -53,12 +43,7 @@ public class CitiesCountRequesterTest {
         BehaviorSubject<Boolean> progressing = BehaviorSubject.createDefault(false);
         BehaviorSubject<Integer> citiesCount = BehaviorSubject.create();
 
-        new CitiesCountRequester() {
-            @Override
-            Single<Integer> queryCitiesCount() {
-                return Single.just(10);
-            }
-        }.apply(progressing, citiesCount);
+        new CitiesCountRequester(Single.just(10)).apply(progressing, citiesCount);
 
         assertFalse(progressing.getValue());
 

@@ -9,7 +9,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.reactive.owm.App;
 import com.reactive.owm.R;
+import com.reactive.owm.domain.Domain;
+import com.reactive.owm.domain.database.CitiesTable;
+import com.reactive.owm.domain.database.DatabaseGateway;
 import com.reactive.owm.presentation.components.ViewModelInitializer;
 import com.reactive.owm.presentation.features.home.HomeActivity;
 
@@ -17,6 +21,7 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class SplashActivity extends AppCompatActivity {
@@ -33,11 +38,11 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        disposables.add(bindViews());
+        disposables.add(bind());
     }
 
     @NonNull
-    private Disposable bindViews() {
+    private Disposable bind() {
         return new ViewModelInitializer<>(SplashViewModel.class)
                 .apply(this)
                 .doOnSuccess(viewModel -> disposables.add(bindProgressBar(viewModel.progressing)))
