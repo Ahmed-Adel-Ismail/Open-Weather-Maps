@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.features.home.HomeActivity" />
-        <activity android:name=".presentation.features.cities.CitiesActivity" />
+        <activity android:name=".presentation.features.weather.WeatherActivity" />
     </application>
 
 </manifest>

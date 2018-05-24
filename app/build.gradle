@@ -60,4 +60,5 @@ dependencies {
     implementation "android.arch.paging:rxjava2:1.0.0-alpha1"
     testImplementation "android.arch.paging:common:$paging_version"
 
+    implementation 'com.android.support:design:27.1.1'
 }
