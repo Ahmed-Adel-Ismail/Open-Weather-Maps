@@ -23,7 +23,6 @@ public class SplashViewModel extends ViewModel {
 
     private final Scheduler scheduler;
 
-
     public SplashViewModel() {
         this(Schedulers.computation());
     }
@@ -48,8 +47,13 @@ public class SplashViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         disposables.clear();
+        finishScreen.onComplete();
         progressing.onComplete();
         citiesCount.onComplete();
         super.onCleared();
     }
+
+
+
+
 }

@@ -16,7 +16,6 @@ import io.reactivex.Maybe;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.SingleSubject;
 
-@SuppressLint("CheckResult")
 public class Domain {
 
 

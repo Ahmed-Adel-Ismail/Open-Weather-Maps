@@ -7,6 +7,9 @@ import android.arch.persistence.room.TypeConverters;
 import com.reactive.owm.entities.City;
 import com.reactive.owm.entities.FavoriteCityId;
 
+import io.reactivex.Flowable;
+import io.reactivex.functions.Function;
+
 @Database(
         entities = {City.class, FavoriteCityId.class},
         version = 1,

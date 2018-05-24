@@ -21,23 +21,13 @@ import io.reactivex.subjects.Subject;
 
 public class App extends Application {
 
-    private static WeakReference<App> instance;
     private final MaybeSubject<Domain> domain = MaybeSubject.create();
-
-    public static Maybe<App> getInstance() {
-        return Single.just(instance)
-                .filter(reference -> reference.get() != null)
-                .map(WeakReference::get);
-
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = new WeakReference<>(this);
         domain.onSuccess(new Domain(database(), server()));
     }
-
 
     private Maybe<DatabaseGateway> database() {
         return new DatabaseGatewayInitializer()

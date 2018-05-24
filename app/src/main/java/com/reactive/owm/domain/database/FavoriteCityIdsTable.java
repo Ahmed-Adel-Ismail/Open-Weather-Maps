@@ -16,7 +16,7 @@ public interface FavoriteCityIdsTable {
 
 
     @Query("select * from FavoriteCityId")
-    Flowable<List<FavoriteCityId>> queryFavoruteCityIds();
+    Flowable<List<FavoriteCityId>> queryFavoriteCityIds();
 
     @Insert
     void insertFavoriteCityId(FavoriteCityId favoriteCityId);
