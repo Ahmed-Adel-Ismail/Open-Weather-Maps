@@ -2,9 +2,11 @@ package com.reactive.owm.entities;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import io.reactivex.Maybe;
 
-public class Coordinates {
+public class Coordinates implements Serializable{
 
     @SerializedName("lat")
     private final Double latitude;
