@@ -1,7 +1,5 @@
 package com.reactive.owm.presentation.components;
 
-import com.reactive.owm.presentation.components.UseCaseExecution;
-
 import org.junit.Test;
 
 import io.reactivex.Flowable;
@@ -9,7 +7,7 @@ import io.reactivex.subjects.BehaviorSubject;
 
 import static org.junit.Assert.*;
 
-public class UseCaseExecutionTest {
+public class UseCaseSingleExecutionTest {
 
     @Test
     public void applyWithProgressingAsTrueThenDoNotUpdateCitiesCount() {
@@ -17,7 +15,7 @@ public class UseCaseExecutionTest {
         BehaviorSubject<Boolean> progressing = BehaviorSubject.createDefault(true);
         BehaviorSubject<Integer> citiesCount = BehaviorSubject.create();
 
-        new UseCaseExecution<>(progressing, citiesCount).apply(Flowable.just(10));
+        new UseCaseSingleExecution<>(progressing, citiesCount).apply(Flowable.just(10));
 
         assertTrue(citiesCount.getValue() == null);
 
@@ -30,7 +28,7 @@ public class UseCaseExecutionTest {
         BehaviorSubject<Boolean> progressing = BehaviorSubject.createDefault(false);
         BehaviorSubject<Integer> citiesCount = BehaviorSubject.create();
 
-        new UseCaseExecution<>(progressing, citiesCount).apply(Flowable.just(10));
+        new UseCaseSingleExecution<>(progressing, citiesCount).apply(Flowable.just(10));
 
         assertEquals(Integer.valueOf(10), citiesCount.getValue());
 
@@ -42,7 +40,7 @@ public class UseCaseExecutionTest {
         BehaviorSubject<Boolean> progressing = BehaviorSubject.createDefault(false);
         BehaviorSubject<Integer> citiesCount = BehaviorSubject.create();
 
-        new UseCaseExecution<>(progressing, citiesCount).apply(Flowable.just(10));
+        new UseCaseSingleExecution<>(progressing, citiesCount).apply(Flowable.just(10));
 
         assertFalse(progressing.getValue());
 

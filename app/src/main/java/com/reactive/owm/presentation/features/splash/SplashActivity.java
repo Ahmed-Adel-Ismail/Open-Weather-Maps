@@ -11,10 +11,11 @@ import android.widget.TextView;
 
 import com.reactive.owm.R;
 import com.reactive.owm.domain.usecases.CountCitiesUseCase;
-import com.reactive.owm.presentation.components.UseCaseExecution;
+import com.reactive.owm.presentation.components.UseCaseSingleExecution;
 import com.reactive.owm.presentation.components.ViewModelInitializer;
 import com.reactive.owm.presentation.features.home.HomeActivity;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -33,11 +34,11 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        disposables.add(bind());
+        disposables.add(bindToViewModel());
     }
 
     @NonNull
-    private Disposable bind() {
+    private Disposable bindToViewModel() {
         return new ViewModelInitializer<>(SplashViewModel.class)
                 .apply(this)
                 .doOnSuccess(viewModel -> disposables.add(bindProgressBar(viewModel.progressing)))
@@ -65,9 +66,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private Disposable requestCitiesCount(SplashViewModel viewModel) {
-        return new CountCitiesUseCase()
-                .apply(getApplication())
-                .compose(new UseCaseExecution<>(viewModel.progressing, viewModel.citiesCount))
+        return Flowable.defer(new CountCitiesUseCase(getApplication()))
+                .compose(new UseCaseSingleExecution<>(viewModel.progressing, viewModel.citiesCount))
                 .subscribe(viewModel.disposables::add);
     }
 

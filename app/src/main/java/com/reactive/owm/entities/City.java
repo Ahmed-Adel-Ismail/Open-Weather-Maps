@@ -7,10 +7,12 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import io.reactivex.Maybe;
 
 @Entity
-public class City {
+public class City implements Serializable{
 
     @PrimaryKey
     @NonNull

@@ -18,7 +18,7 @@ public interface CitiesTable {
 
 
     @Query("select * from City where City.name like :fuzzyName")
-    Flowable<List<City>> queryCityByName(String fuzzyName);
+    List<City> queryCityByName(String fuzzyName);
 
     @Query("select * from City order by City.name")
     DataSource.Factory<Integer, City> queryAllCities();

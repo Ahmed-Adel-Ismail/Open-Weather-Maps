@@ -1,10 +1,8 @@
 package com.reactive.owm.domain.database;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.File;
@@ -14,6 +12,7 @@ import java.io.InputStream;
 
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class DatabaseGatewayInitializer implements Function<Context, Single<DatabaseGateway>> {
@@ -22,38 +21,31 @@ public class DatabaseGatewayInitializer implements Function<Context, Single<Data
 
     @Override
     public Single<DatabaseGateway> apply(Context context) {
-        return Single.just(Room.databaseBuilder(context, DatabaseGateway.class, DATABASE_NAME))
-                .doOnSuccess(builder -> builder.addCallback(updateCitiesFromAssets(context)))
+        return Single.fromCallable(() -> copyDatabaseFromAssets(context))
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .map(ignoredResult -> Room.databaseBuilder(context, DatabaseGateway.class, DATABASE_NAME))
                 .map(RoomDatabase.Builder::build);
     }
 
-    private RoomDatabase.Callback updateCitiesFromAssets(Context context) {
-        return new RoomDatabase.Callback() {
-            @Override
-            public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                try {
-                    copyDatabaseFromAssets(context);
-                } catch (IOException e) {
-                    Log.e("DatabaseGateway", "failed to copy database", e);
-                }
-                super.onCreate(db);
-            }
-        };
-    }
-
-    private void copyDatabaseFromAssets(Context context) throws IOException {
-        File assetsFile = context.getDatabasePath(DATABASE_NAME);
-        if (!assetsFile.exists()) {
-            copy(context, assetsFile);
+    private boolean copyDatabaseFromAssets(Context context) throws IOException {
+        File databaseFile = context.getDatabasePath(DATABASE_NAME);
+        if (!databaseFile.exists()) {
+            copy(context, databaseFile);
+            return true;
+        } else {
+            return false;
         }
     }
 
-    private void copy(Context context, File assetsFile) throws IOException {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void copy(Context context, File databaseFile) throws IOException {
+        databaseFile.getParentFile().mkdirs();
         InputStream assetsFileStream = null;
         FileOutputStream databaseFileStream = null;
         try {
             assetsFileStream = context.getAssets().open(DATABASE_NAME);
-            databaseFileStream = new FileOutputStream(assetsFile);
+            databaseFileStream = new FileOutputStream(databaseFile);
             databaseFileStream.write(assetsFile(assetsFileStream));
         } finally {
             closeStreams(assetsFileStream, databaseFileStream);

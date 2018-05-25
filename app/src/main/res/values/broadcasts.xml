@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ACTION_START_WEATHER_SCREEN">com.reactive.owm.ACTION_START_WEATHER_SCREEN</string>
+    <string name="ACTION_REMOVE_FAVORITE_CITY">com.reactive.owm.ACTION_REMOVE_FAVORITE_CITY</string>
+
+</resources>

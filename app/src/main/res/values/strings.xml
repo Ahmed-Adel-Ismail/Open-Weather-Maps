@@ -4,4 +4,7 @@
     <string name="supported_cities">Supported cities :</string>
     <string name="no_cities_supported">No cities supported</string>
     <string name="please_wait">Please wait</string>
+    <string name="search_for_city">Search for city</string>
+    <string name="add_to_favorites">Add To Favorites</string>
+    <string name="add">+</string>
 </resources>

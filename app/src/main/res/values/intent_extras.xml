@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="EXTRA_WEATHER_SCREEN_CITY">com.reactive.owm.EXTRA_WEATHER_SCREEN_CITY</string>
+    <string name="EXTRA_REMOVE_FAVORITE_CITY">com.reactive.owm.EXTRA_REMOVE_FAVORITE_CITY</string>
+</resources>
