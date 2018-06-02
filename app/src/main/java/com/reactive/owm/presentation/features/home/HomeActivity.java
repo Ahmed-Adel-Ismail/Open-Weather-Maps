@@ -1,5 +1,6 @@
 package com.reactive.owm.presentation.features.home;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,12 +29,14 @@ import io.reactivex.subjects.BehaviorSubject;
 public class HomeActivity extends AppCompatActivity {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
+    private final StartWeatherScreenReceiver onCityClicked = new StartWeatherScreenReceiver(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         disposables.add(bindToViewModel());
+        registerReceiver(onCityClicked, new IntentFilter(getString(R.string.ACTION_START_WEATHER_SCREEN)));
     }
 
     @NonNull
@@ -103,6 +106,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(onCityClicked);
         disposables.clear();
         super.onDestroy();
     }
