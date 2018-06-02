@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
     private Disposable bindSearchResults(BehaviorSubject<List<City>> searchedCities) {
         return Single.just((RecyclerView) findViewById(R.id.home_favorites_recycler_view))
                 .doOnSuccess(view -> view.setLayoutManager(new LinearLayoutManager(this)))
-                .subscribe(view -> view.setAdapter(new SearchCitiesAdapter(searchedCities, disposables::add)));
+                .subscribe(view -> view.setAdapter(new SearchedCitiesAdapter(searchedCities, disposables::add)));
     }
 
     private Disposable bindTriggerSearch(HomeViewModel viewModel) {

@@ -17,12 +17,12 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.BehaviorSubject;
 
-public class SearchCitiesAdapter extends RecyclerView.Adapter<FavoriteCityViewHolder> {
+public class SearchedCitiesAdapter extends RecyclerView.Adapter<SearchedCityViewHolder> {
 
     private final BehaviorSubject<List<City>> items;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    public SearchCitiesAdapter(BehaviorSubject<List<City>> items, Consumer<CompositeDisposable> attachDisposable) {
+    public SearchedCitiesAdapter(BehaviorSubject<List<City>> items, Consumer<CompositeDisposable> attachDisposable) {
 
         this.items = items;
         disposables.add(bindItems());
@@ -43,8 +43,8 @@ public class SearchCitiesAdapter extends RecyclerView.Adapter<FavoriteCityViewHo
 
     @NonNull
     @Override
-    public FavoriteCityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new FavoriteCityViewHolder(parent.getContext(), view(parent), disposables::add);
+    public SearchedCityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new SearchedCityViewHolder(parent.getContext(), view(parent), disposables::add);
     }
 
     private View view(@NonNull ViewGroup parent) {
@@ -53,7 +53,7 @@ public class SearchCitiesAdapter extends RecyclerView.Adapter<FavoriteCityViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavoriteCityViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchedCityViewHolder holder, int position) {
         holder.currentCity.onNext(items.getValue().get(position));
     }
 

@@ -21,11 +21,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.BehaviorSubject;
 
-class FavoriteCityViewHolder extends RecyclerView.ViewHolder {
+class SearchedCityViewHolder extends RecyclerView.ViewHolder {
 
     final BehaviorSubject<City> currentCity = BehaviorSubject.create();
 
-    FavoriteCityViewHolder(Context context,
+    SearchedCityViewHolder(Context context,
                            View itemView,
                            Consumer<CompositeDisposable> attachDisposables) {
         super(itemView);
@@ -37,7 +37,7 @@ class FavoriteCityViewHolder extends RecyclerView.ViewHolder {
         try {
             attachDisposables.accept(disposables);
         } catch (Throwable e) {
-            Log.e("FavoriteCityViewHolder", "failed to attach disposables", e);
+            Log.e("SearchedCityViewHolder", "failed to attach disposables", e);
         }
     }
 
