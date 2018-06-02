@@ -1,13 +1,11 @@
 package com.reactive.owm.domain.database;
 
-import android.arch.persistence.room.TypeConverter;
-
-import com.google.gson.Gson;
 import com.reactive.owm.entities.Coordinates;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CoordinatesConverterTest {
 

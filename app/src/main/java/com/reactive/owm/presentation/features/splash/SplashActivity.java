@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.reactive.owm.R;
 import com.reactive.owm.domain.usecases.CountCitiesUseCase;
-import com.reactive.owm.presentation.components.UseCaseSingleExecution;
 import com.reactive.owm.presentation.components.ViewModelInitializer;
 import com.reactive.owm.presentation.features.home.HomeActivity;
 
@@ -67,7 +66,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private Disposable requestCitiesCount(SplashViewModel viewModel) {
         return Flowable.defer(new CountCitiesUseCase(getApplication()))
-                .compose(new UseCaseSingleExecution<>(viewModel.progressing, viewModel.citiesCount))
+                .compose(new CountCitiesInteractor(viewModel.progressing, viewModel.citiesCount))
                 .subscribe(viewModel.disposables::add);
     }
 

@@ -1,20 +1,9 @@
 package com.reactive.owm.domain;
 
-import android.annotation.SuppressLint;
-import android.arch.persistence.room.Room;
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
-
-import com.reactive.owm.App;
 import com.reactive.owm.domain.database.DatabaseGateway;
-import com.reactive.owm.domain.database.DatabaseGatewayInitializer;
 import com.reactive.owm.domain.server.ServerGateway;
-import com.reactive.owm.domain.server.ServerGatewayInitializer;
 
 import io.reactivex.Maybe;
-import io.reactivex.subjects.MaybeSubject;
-import io.reactivex.subjects.SingleSubject;
 
 public class Domain {
 

@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.RestrictTo;
 
-import com.reactive.owm.domain.components.TextInputValidation;
 import com.reactive.owm.entities.City;
-import com.reactive.owm.entities.FavoriteCityId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +23,7 @@ public class HomeViewModel extends ViewModel {
 
     final BehaviorSubject<Boolean> progressing = BehaviorSubject.createDefault(false);
     final BehaviorSubject<String> searchInput = BehaviorSubject.create();
-    final BehaviorSubject<List<City>> searchedCities = BehaviorSubject.createDefault(new ArrayList<>());
+    final BehaviorSubject<List<City>> searchResult = BehaviorSubject.createDefault(new ArrayList<>());
     final PublishSubject<String> triggerSearch = PublishSubject.create();
     final CompositeDisposable disposables = new CompositeDisposable();
     private final Scheduler scheduler;
@@ -44,7 +42,6 @@ public class HomeViewModel extends ViewModel {
     private Disposable bindTriggerSearchWithSearchInput() {
         return searchInput.share()
                 .observeOn(scheduler)
-                .compose(new TextInputValidation())
                 .debounce(2, SECONDS, scheduler)
                 .subscribe(triggerSearch::onNext);
     }
@@ -54,7 +51,7 @@ public class HomeViewModel extends ViewModel {
     protected void onCleared() {
         progressing.onComplete();
         searchInput.onComplete();
-        searchedCities.onComplete();
+        searchResult.onComplete();
         triggerSearch.onComplete();
         disposables.clear();
         super.onCleared();

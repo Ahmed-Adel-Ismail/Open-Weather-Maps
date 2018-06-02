@@ -13,10 +13,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.reactive.owm.R;
-import com.reactive.owm.domain.components.TextInputValidation;
 import com.reactive.owm.domain.usecases.SearchCitiesUseCase;
 import com.reactive.owm.entities.City;
-import com.reactive.owm.presentation.components.UseCaseMultipleExecutions;
 import com.reactive.owm.presentation.components.ViewModelInitializer;
 
 import java.util.List;
@@ -43,9 +41,9 @@ public class HomeActivity extends AppCompatActivity {
         return new ViewModelInitializer<>(HomeViewModel.class)
                 .apply(this)
                 .doOnSuccess(viewModel -> disposables.add(bindProgressBar(viewModel.progressing)))
-                .doOnSuccess(viewModel -> watchSearchInputChanges(viewModel.searchInput))
+                .doOnSuccess(viewModel -> disposables.add(bindSearchResults(viewModel.searchResult)))
                 .doOnSuccess(viewModel -> disposables.add(bindTriggerSearch(viewModel)))
-                .doOnSuccess(viewModel -> disposables.add(bindSearchCitiesResults(viewModel.searchedCities)))
+                .doOnSuccess(viewModel -> watchSearchInputChanges(viewModel.searchInput))
                 .subscribe();
     }
 
@@ -57,24 +55,29 @@ public class HomeActivity extends AppCompatActivity {
                 .subscribe(progressBar::setVisibility);
     }
 
-    private void watchSearchInputChanges(BehaviorSubject<String> searchInput) {
-        EditText editText = findViewById(R.id.home_search_editText);
-        editText.addTextChangedListener(searchTextChangeWatcher(searchInput));
+    private Disposable bindSearchResults(BehaviorSubject<List<City>> searchedCities) {
+        return Single.just((RecyclerView) findViewById(R.id.home_favorites_recycler_view))
+                .doOnSuccess(view -> view.setLayoutManager(new LinearLayoutManager(this)))
+                .subscribe(view -> view.setAdapter(new SearchCitiesAdapter(searchedCities, disposables::add)));
     }
 
     private Disposable bindTriggerSearch(HomeViewModel viewModel) {
         return viewModel.triggerSearch
                 .share()
-                .compose(new TextInputValidation())
-                .map(cityName -> startSearchingForCity(cityName, viewModel))
+                .map(searchText -> triggerSearchCitiesInteractor(searchText, viewModel))
                 .subscribe(disposables::add);
-
     }
 
-    private Disposable bindSearchCitiesResults(BehaviorSubject<List<City>> searchedCities) {
-        return Single.just((RecyclerView) findViewById(R.id.home_favorites_recycler_view))
-                .doOnSuccess(view -> view.setLayoutManager(new LinearLayoutManager(this)))
-                .subscribe(view -> view.setAdapter(new SearchCitiesAdapter(searchedCities, disposables::add)));
+    private void watchSearchInputChanges(BehaviorSubject<String> searchInput) {
+        EditText editText = findViewById(R.id.home_search_editText);
+        editText.addTextChangedListener(searchTextChangeWatcher(searchInput));
+    }
+
+    private Disposable triggerSearchCitiesInteractor(String cityName, HomeViewModel viewModel) {
+        return new SearchCitiesUseCase(getApplication())
+                .apply(cityName)
+                .compose(new SearchCitiesInteractor(viewModel.progressing, viewModel.searchResult))
+                .subscribe(viewModel.disposables::add);
     }
 
     @NonNull
@@ -97,12 +100,6 @@ public class HomeActivity extends AppCompatActivity {
         };
     }
 
-    private Disposable startSearchingForCity(String cityName, HomeViewModel viewModel) {
-        return new SearchCitiesUseCase(getApplication())
-                .apply(cityName)
-                .compose(new UseCaseMultipleExecutions<>(viewModel.progressing, viewModel.searchedCities))
-                .subscribe(viewModel.disposables::add);
-    }
 
     @Override
     protected void onDestroy() {

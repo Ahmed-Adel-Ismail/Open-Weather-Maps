@@ -18,70 +18,24 @@ import java.util.List;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
+import io.reactivex.schedulers.TestScheduler;
+
+import static org.junit.Assert.assertTrue;
 
 public class CitiesQueryTest {
 
     @Test
     public void applyThenReturnStreamWithCitiesTable() {
 
-        DatabaseGateway databaseGateway = databaseGatewayWithCitiesTable();
-
-        Maybe.just(new Domain(Maybe.just(databaseGateway), Maybe.empty()))
+        boolean result = Maybe.just(new Domain(Maybe.just(new MockDatabaseGateway()), Maybe.empty()))
                 .compose(new CitiesQuery())
                 .map(ignoredTable -> true)
                 .defaultIfEmpty(false)
-                .subscribe(Assert::assertTrue);
+                .blockingGet();
+
+
+        assertTrue(result);
     }
 
-    @NonNull
-    private DatabaseGateway databaseGatewayWithCitiesTable() {
-        return new DatabaseGateway() {
-            @Override
-            public CitiesTable getCitiesTable() {
-                return new CitiesTable() {
-                    @Override
-                    public Flowable<List<City>> queryCityByName(String fuzzyName) {
-                        return null;
-                    }
 
-                    @Override
-                    public DataSource.Factory<Integer, City> queryAllCities() {
-                        return null;
-                    }
-
-                    @Override
-                    public Single<Integer> queryCitiesCount() {
-                        return null;
-                    }
-
-                    @Override
-                    public Flowable<List<City>> queryCitiesByIds(List<Long> ids) {
-                        return null;
-                    }
-                };
-            }
-
-            @Override
-            public FavoriteCityIdsTable getFavoriteCityIdsTable() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            protected InvalidationTracker createInvalidationTracker() {
-                return null;
-            }
-
-            @Override
-            public void clearAllTables() {
-
-            }
-        };
-    }
 }
