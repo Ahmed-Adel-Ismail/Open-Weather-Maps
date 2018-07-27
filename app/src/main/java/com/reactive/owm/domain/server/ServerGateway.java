@@ -8,8 +8,6 @@ import retrofit2.http.Query;
 
 public interface ServerGateway {
 
-
-
     @GET("/data/2.5/forecast")
     Single<ForecastsResponse> requestFiveDaysForecasts(@Query("id") Long id);
 

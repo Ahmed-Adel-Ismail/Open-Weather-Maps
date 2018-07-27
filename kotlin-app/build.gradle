@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        applicationId "com.ahmedismail.app"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
+
+dependencies { configuration ->
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
+    androidX(configuration)
+    architectureComponents(configuration)
+    customDependencies(configuration)
+}
+
+
+private static void androidX(configuration) {
+    def android_x_version = "1.0.0-beta01"
+    configuration.implementation "com.google.android.material:material:$android_x_version"
+    configuration.implementation "androidx.appcompat:appcompat:$android_x_version"
+    configuration.implementation "androidx.core:core-ktx:$android_x_version"
+
+    def constraint_layout_version = "1.1.2"
+    configuration.implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+}
+
+private static void architectureComponents(configuration) {
+    def architecture_components_version = "2.0.0-beta01"
+    configuration.implementation "androidx.room:room-runtime:$architecture_components_version"
+    configuration.implementation "androidx.room:room-rxjava2:$architecture_components_version"
+    configuration.annotationProcessor "androidx.room:room-compiler:$architecture_components_version"
+    configuration.testImplementation "androidx.room:room-testing:$architecture_components_version"
+    configuration.implementation "androidx.lifecycle:lifecycle-extensions:$architecture_components_version"
+    configuration.implementation "androidx.lifecycle:lifecycle-reactivestreams:$architecture_components_version"
+    configuration.annotationProcessor "androidx.lifecycle:lifecycle-compiler:$architecture_components_version"
+    configuration.testImplementation "androidx.arch.core:core-testing:$architecture_components_version"
+}
+
+private static void customDependencies(configuration) {
+    def retrofit_version = "2.3.0"
+    configuration.implementation 'com.google.code.gson:gson:2.8.2'
+    configuration.implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    configuration.implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    configuration.implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+}
