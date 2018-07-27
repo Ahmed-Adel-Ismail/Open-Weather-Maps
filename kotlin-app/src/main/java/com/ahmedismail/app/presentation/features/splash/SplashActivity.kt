@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ahmedismail.app.R
+import com.ahmedismail.app.domain.usecases.countCities
 import com.ahmedismail.app.getDomain
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -30,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
         })
 
         launch {
-            disposables.add(viewModel.countCities(getDomain()))
+            disposables.add(viewModel.countCities { getDomain().countCities() })
         }
 
     }

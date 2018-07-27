@@ -4,7 +4,7 @@ import com.ahmedismail.app.domain.Domain
 import com.ahmedismail.app.domain.components.isValidInput
 import kotlinx.coroutines.experimental.Deferred
 
-suspend fun Deferred<Domain>.citiesCount() =
+suspend fun Deferred<Domain>.countCities() =
         await().database
                 .citiesTable
                 .queryCitiesCount()

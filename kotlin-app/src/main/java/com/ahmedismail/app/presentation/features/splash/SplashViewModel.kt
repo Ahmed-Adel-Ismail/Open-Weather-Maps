@@ -2,11 +2,9 @@ package com.ahmedismail.app.presentation.features.splash
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ahmedismail.app.domain.Domain
-import com.ahmedismail.app.domain.usecases.citiesCount
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
-import kotlinx.coroutines.experimental.Deferred
 
 class SplashViewModel : ViewModel() {
 
@@ -24,12 +22,12 @@ class SplashViewModel : ViewModel() {
 }
 
 
-suspend fun SplashViewModel.countCities(domain: Deferred<Domain>): Disposable {
+suspend fun SplashViewModel.countCities(citiesCounter: suspend () -> Single<Int>): Disposable {
     return if (loading.value!!) {
         Disposables.disposed()
     } else {
         loading.postValue(true)
-        domain.citiesCount()
+        citiesCounter()
                 .doFinally { loading.postValue(false) }
                 .subscribe(citiesCount::postValue, error::postValue)
     }

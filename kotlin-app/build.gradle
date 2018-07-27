@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
 
@@ -57,11 +58,11 @@ private static void architectureComponents(configuration) {
     def architecture_components_version = "2.0.0-beta01"
     configuration.implementation "androidx.room:room-runtime:$architecture_components_version"
     configuration.implementation "androidx.room:room-rxjava2:$architecture_components_version"
-    configuration.annotationProcessor "androidx.room:room-compiler:$architecture_components_version"
+    configuration.kapt "androidx.room:room-compiler:$architecture_components_version"
     configuration.testImplementation "androidx.room:room-testing:$architecture_components_version"
     configuration.implementation "androidx.lifecycle:lifecycle-extensions:$architecture_components_version"
     configuration.implementation "androidx.lifecycle:lifecycle-reactivestreams:$architecture_components_version"
-    configuration.annotationProcessor "androidx.lifecycle:lifecycle-compiler:$architecture_components_version"
+    configuration.kapt "androidx.lifecycle:lifecycle-compiler:$architecture_components_version"
     configuration.testImplementation "androidx.arch.core:core-testing:$architecture_components_version"
 }
 
