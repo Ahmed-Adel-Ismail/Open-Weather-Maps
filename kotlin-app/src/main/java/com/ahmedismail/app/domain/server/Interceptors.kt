@@ -34,7 +34,7 @@ internal fun appKeyInterceptor() =
         }
 
 
-internal fun offlineInterceptor(networkChecker: suspend () -> Boolean) =
+internal fun offlineInterceptor(networkChecker: () -> Boolean) =
         object : Interceptor {
 
             override fun intercept(chain: Interceptor.Chain): Response {
