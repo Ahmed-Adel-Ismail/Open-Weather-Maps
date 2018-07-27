@@ -28,9 +28,9 @@ suspend fun SplashViewModel.countCities(domain: Deferred<Domain>): Disposable {
     return if (loading.value!!) {
         Disposables.disposed()
     } else {
-        loading.value = true
+        loading.postValue(true)
         domain.citiesCount()
-                .doFinally { loading.value = false }
+                .doFinally { loading.postValue(false) }
                 .subscribe(citiesCount::postValue, error::postValue)
     }
 }
