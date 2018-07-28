@@ -6,16 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ahmedismail.app.R
-import com.ahmedismail.app.domain.usecases.countCities
-import com.ahmedismail.app.getDomain
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.coroutines.experimental.launch
 
 class SplashActivity : AppCompatActivity() {
 
-    private val viewModel by lazy { ViewModelProviders.of(this).get(SplashViewModel::class.java) }
-    private val disposables = CompositeDisposable()
+    val viewModel by lazy { ViewModelProviders.of(this).get(SplashViewModel::class.java) }
+    val disposables = CompositeDisposable()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +27,7 @@ class SplashActivity : AppCompatActivity() {
             text_view.text = "error: ${it?.message}"
         })
 
-        launch {
-            disposables.add(viewModel.countCities { getDomain().countCities() })
-        }
-
+        loadCitiesCount()
     }
 
 

@@ -22,15 +22,6 @@ class SplashViewModel : ViewModel() {
 }
 
 
-suspend fun SplashViewModel.countCities(citiesCounter: suspend () -> Single<Int>): Disposable {
-    return if (loading.value!!) {
-        Disposables.disposed()
-    } else {
-        loading.postValue(true)
-        citiesCounter()
-                .doFinally { loading.postValue(false) }
-                .subscribe(citiesCount::postValue, error::postValue)
-    }
-}
+
 
 

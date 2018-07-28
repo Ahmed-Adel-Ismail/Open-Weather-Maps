@@ -3,18 +3,26 @@ package com.ahmedismail.app
 import android.app.Activity
 import android.app.Application
 import androidx.fragment.app.Fragment
-import com.ahmedismail.app.domain.Domain
-import com.ahmedismail.app.domain.database.database
-import com.ahmedismail.app.domain.server.server
+import com.ahmedismail.app.domain.Ports
+import com.ahmedismail.app.domain.adapters.Adapters
+import com.ahmedismail.app.domain.adapters.databaseAdapter
+import com.ahmedismail.app.domain.adapters.serverAdapter
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
-class App : Application() {
+class App : Application(), Ports {
 
-    val domain by lazy {
-        async { Domain(server(this@App), database(this@App)) }
+    override val adapters by lazy {
+        async { Adapters(serverAdapter(this@App), databaseAdapter(this@App)) }
     }
 }
 
-fun Application.getDomain() = (this as App).domain
-fun Activity.getDomain() = application.getDomain()
-fun Fragment.getDomain() = activity?.application?.getDomain()
+fun Activity.withPorts(block: suspend Ports.() -> Unit) = launch {
+    (application!! as Ports).block()
+}
+
+fun Fragment.withPorts(block: suspend Ports.() -> Unit) = launch {
+    (activity?.application as? Ports)?.block()
+}
+
+
