@@ -1,6 +1,6 @@
-package com.ahmedismail.app.domain.usecases
+package com.ahmedismail.kapp.domain.usecases
 
-import com.ahmedismail.app.entities.City
+import com.ahmedismail.kapp.entities.City
 
 fun ((String) -> List<City>).validateCityName(name: String?): () -> List<City> =
         if (!name.orEmpty().trim().isEmpty()) {

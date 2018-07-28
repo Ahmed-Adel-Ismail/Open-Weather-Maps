@@ -1,6 +1,6 @@
-package com.ahmedismail.app.presentation.features.splash
+package com.ahmedismail.kapp.presentation.features.splash
 
-import com.ahmedismail.app.withPorts
+import com.ahmedismail.kapp.withPorts
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables

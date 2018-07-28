@@ -1,4 +1,4 @@
-package com.ahmedismail.app
+package com.ahmedismail.kapp
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

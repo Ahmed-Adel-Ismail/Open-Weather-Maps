@@ -1,12 +1,12 @@
-package com.ahmedismail.app
+package com.ahmedismail.kapp
 
 import android.app.Activity
 import android.app.Application
 import androidx.fragment.app.Fragment
-import com.ahmedismail.app.domain.Ports
-import com.ahmedismail.app.domain.adapters.Adapters
-import com.ahmedismail.app.domain.adapters.databaseAdapter
-import com.ahmedismail.app.domain.adapters.serverAdapter
+import com.ahmedismail.kapp.domain.Ports
+import com.ahmedismail.kapp.domain.adapters.Adapters
+import com.ahmedismail.kapp.domain.adapters.databaseAdapter
+import com.ahmedismail.kapp.domain.adapters.serverAdapter
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 

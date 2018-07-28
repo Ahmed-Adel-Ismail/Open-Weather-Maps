@@ -1,8 +1,8 @@
-package com.ahmedismail.app.domain.adapters
+package com.ahmedismail.kapp.domain.adapters
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.ahmedismail.app.entities.ForecastsResponse
+import com.ahmedismail.kapp.entities.ForecastsResponse
 import io.reactivex.Single
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.runBlocking

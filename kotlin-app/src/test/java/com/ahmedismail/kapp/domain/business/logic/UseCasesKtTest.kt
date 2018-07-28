@@ -1,7 +1,7 @@
-package com.ahmedismail.app.domain.business.logic
+package com.ahmedismail.kapp.domain.business.logic
 
-import com.ahmedismail.app.domain.usecases.validateCityName
-import com.ahmedismail.app.entities.City
+import com.ahmedismail.kapp.domain.usecases.validateCityName
+import com.ahmedismail.kapp.entities.City
 import org.junit.Assert.*
 import org.junit.Test
 

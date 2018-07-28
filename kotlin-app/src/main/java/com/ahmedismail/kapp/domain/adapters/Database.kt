@@ -1,10 +1,10 @@
-package com.ahmedismail.app.domain.adapters
+package com.ahmedismail.kapp.domain.adapters
 
 import android.content.Context
 import androidx.room.*
-import com.ahmedismail.app.entities.City
-import com.ahmedismail.app.entities.Coordinates
-import com.ahmedismail.app.entities.FavoriteCityId
+import com.ahmedismail.kapp.entities.City
+import com.ahmedismail.kapp.entities.Coordinates
+import com.ahmedismail.kapp.entities.FavoriteCityId
 import com.google.gson.Gson
 import io.reactivex.Flowable
 import io.reactivex.Single

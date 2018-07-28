@@ -1,4 +1,4 @@
-package com.ahmedismail.app.presentation.features.splash
+package com.ahmedismail.kapp.presentation.features.splash
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

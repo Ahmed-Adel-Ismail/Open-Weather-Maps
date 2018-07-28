@@ -1,10 +1,10 @@
-package com.ahmedismail.app.entities
+package com.ahmedismail.kapp.entities
 
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ahmedismail.app.domain.adapters.DatabaseAdapter
-import com.ahmedismail.app.domain.adapters.ServerAdapter
+import com.ahmedismail.kapp.domain.adapters.DatabaseAdapter
+import com.ahmedismail.kapp.domain.adapters.ServerAdapter
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 

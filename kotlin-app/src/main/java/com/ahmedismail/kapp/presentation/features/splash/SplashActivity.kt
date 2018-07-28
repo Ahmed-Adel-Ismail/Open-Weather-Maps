@@ -1,4 +1,4 @@
-package com.ahmedismail.app.presentation.features.splash
+package com.ahmedismail.kapp.presentation.features.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.ahmedismail.app.R
+import com.ahmedismail.kapp.R
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_splash.*
 
