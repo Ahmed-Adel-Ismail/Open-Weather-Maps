@@ -2,6 +2,8 @@ package com.ahmedismail.app.presentation.features.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,11 +22,16 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         viewModel.citiesCount.observe(this, Observer {
-            text_view.text = "cities count: $it"
+            splash_label.text = "cities count: $it"
         })
 
         viewModel.error.observe(this, Observer {
-            text_view.text = "error: ${it?.message}"
+            val message = it?.message ?: ""
+            splash_label.text = "error: $message"
+        })
+
+        viewModel.loading.observe(this, Observer {
+            splash_progress.visibility = if (it) VISIBLE else GONE
         })
 
         loadCitiesCount()

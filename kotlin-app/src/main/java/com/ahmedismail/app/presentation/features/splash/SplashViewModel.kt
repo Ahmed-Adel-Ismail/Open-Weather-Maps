@@ -14,7 +14,7 @@ class SplashViewModel : ViewModel() {
 
 
     init {
-        error.value
+        error.value = null
         loading.value = false
         citiesCount.value = 0
     }
