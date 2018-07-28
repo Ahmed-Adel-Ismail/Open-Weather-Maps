@@ -26,8 +26,7 @@ class SplashActivity : AppCompatActivity() {
         })
 
         viewModel.error.observe(this, Observer {
-            val message = it?.message ?: ""
-            splash_label.text = "error: $message"
+            splash_label.text = it?.run { "error: $message" } ?: ""
         })
 
         viewModel.loading.observe(this, Observer {
