@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import com.ahmedismail.kapp.R
 import com.ahmedismail.kapp.presentation.components.DisposablesHolder
+import com.ahmedismail.kapp.presentation.components.withValue
 import com.ahmedismail.kapp.presentation.components.withPorts
 import com.ahmedismail.kapp.presentation.features.home.HomeActivity
 import io.reactivex.Single
@@ -32,28 +33,19 @@ class SplashActivity : AppCompatActivity(), DisposablesHolder {
     }
 }
 
-
 class SplashViewModel(
-        val loading: MutableLiveData<Boolean> = MutableLiveData(),
-        val citiesCount: MutableLiveData<Int> = MutableLiveData(),
-        val error: MutableLiveData<Throwable> = MutableLiveData(),
-        val navigateToNextScreen: MutableLiveData<Boolean> = MutableLiveData()) : ViewModel() {
-
-    init {
-        navigateToNextScreen.value = false
-        error.value = null
-        loading.value = false
-        citiesCount.value = 0
-    }
-
-}
+        val loading: MutableLiveData<Boolean> = MutableLiveData<Boolean>().withValue(false),
+        val citiesCount: MutableLiveData<Int> = MutableLiveData<Int>(),
+        val error: MutableLiveData<Throwable> = MutableLiveData<Throwable>(),
+        val navigateToNextScreen: MutableLiveData<Boolean> = MutableLiveData<Boolean>().withValue(false))
+    : ViewModel()
 
 
 @SuppressLint("SetTextI18n")
 fun SplashActivity.bindViews() {
     with(viewModel) {
 
-        citiesCount.observe(this@bindViews, Observer { splash_label.text = "cities count: $it" })
+        citiesCount.observe(this@bindViews, Observer { splash_label.text = "supported cities: $it" })
 
         error.observe(this@bindViews, Observer { it?.run { splash_label.text = "error: $message" } })
 
@@ -75,7 +67,6 @@ fun SplashActivity.loadCitiesCount() = withPorts {
             ?.run { withDatabase { countCities(citiesTable::queryCitiesCount) } }
             ?.let(disposables::add)
 }
-
 
 fun SplashViewModel.countCities(citiesCounter: () -> Single<Int>): Disposable {
     loading.postValue(true)

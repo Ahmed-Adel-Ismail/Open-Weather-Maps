@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Kotlin-App</string>
+    <string name="please_wait">Please wait...</string>
 </resources>
