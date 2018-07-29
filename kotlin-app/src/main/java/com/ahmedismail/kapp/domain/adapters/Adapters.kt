@@ -1,3 +1,6 @@
 package com.ahmedismail.kapp.domain.adapters
 
-data class Adapters(val server: ServerAdapter, val database: DatabaseAdapter)
+import kotlinx.coroutines.experimental.Deferred
+
+data class Adapters(val server: Deferred<ServerAdapter>,
+                    val database: Deferred<DatabaseAdapter>)

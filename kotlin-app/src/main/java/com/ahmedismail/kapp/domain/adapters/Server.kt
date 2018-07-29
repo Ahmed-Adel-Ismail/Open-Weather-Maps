@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import com.ahmedismail.kapp.entities.ForecastsResponse
 import io.reactivex.Single
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import kotlinx.coroutines.experimental.withContext
 import okhttp3.*
@@ -28,14 +29,15 @@ interface ServerAdapter {
     fun requestFiveDaysForecasts(@Query("id") id: Long?): Single<ForecastsResponse>
 }
 
-suspend fun serverAdapter(context: Context): ServerAdapter =
-        Retrofit.Builder()
-                .baseUrl(OPEN_WEATHER_MAPS_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttp(cache(context), appKeyInterceptor(), offlineInterceptor(networkChecker(context))))
-                .build()
-                .create(ServerAdapter::class.java)
+fun serverAdapter(context: Context) = async {
+    Retrofit.Builder()
+            .baseUrl(OPEN_WEATHER_MAPS_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttp(cache(context), appKeyInterceptor(), offlineInterceptor(networkChecker(context))))
+            .build()
+            .create(ServerAdapter::class.java)
+}
 
 
 private suspend fun cache(context: Context) =

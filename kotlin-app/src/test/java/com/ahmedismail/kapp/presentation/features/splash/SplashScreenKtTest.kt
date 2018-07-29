@@ -6,7 +6,7 @@ import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 
-class SplashInteractorsKtTest {
+class SplashScreenKtTest {
 
     @get: Rule
     val rule = InstantTaskExecutorRule()
@@ -21,9 +21,25 @@ class SplashInteractorsKtTest {
             result[0] = it
         }
 
-        viewModel.countCities(0) { Single.just(10) }
+        viewModel.countCities { Single.just(10) }
 
         assertEquals(10, result[0])
+
+    }
+
+    @Test
+    fun countCitiesWithSuccessfulCounterThenUpdateNavigateToNextScreenLiveData() {
+
+        val result = mutableListOf(false)
+        val viewModel = SplashViewModel()
+
+        viewModel.navigateToNextScreen.observeForever {
+            result[0] = it
+        }
+
+        viewModel.countCities { Single.just(10) }
+
+        assertTrue(result[0])
 
     }
 
@@ -43,7 +59,7 @@ class SplashInteractorsKtTest {
             }
         }
 
-        viewModel.countCities(0) { Single.just(10) }
+        viewModel.countCities { Single.just(10) }
 
         assertTrue(startAndStop[0] && startAndStop[1])
 
@@ -65,7 +81,7 @@ class SplashInteractorsKtTest {
             }
         }
 
-        viewModel.countCities(0) { Single.error(UnsupportedOperationException("error")) }
+        viewModel.countCities { Single.error(UnsupportedOperationException("error")) }
 
         assertTrue(startAndStop[0] && startAndStop[1])
 
@@ -81,7 +97,7 @@ class SplashInteractorsKtTest {
             result[0] = it?.message ?: ""
         }
 
-        viewModel.countCities(0) { Single.error(UnsupportedOperationException("error")) }
+        viewModel.countCities { Single.error(UnsupportedOperationException("error")) }
 
         assertEquals("error", result[0])
 

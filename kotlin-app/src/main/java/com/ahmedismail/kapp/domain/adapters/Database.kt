@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import io.reactivex.Flowable
 import io.reactivex.Single
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.withContext
 import java.io.File
 import java.io.FileOutputStream
@@ -23,10 +24,11 @@ abstract class DatabaseAdapter : RoomDatabase() {
     abstract val favoriteCityIdsTable: FavoriteCityIdsTable
 }
 
-suspend fun databaseAdapter(context: Context) =
-        copyDatabaseFromAssets(context)
-                .let { Room.databaseBuilder(context, DatabaseAdapter::class.java, DATABASE_NAME) }
-                .build()
+fun databaseAdapter(context: Context) = async {
+    copyDatabaseFromAssets(context)
+            .let { Room.databaseBuilder(context, DatabaseAdapter::class.java, DATABASE_NAME) }
+            .build()
+}
 
 
 private suspend fun copyDatabaseFromAssets(context: Context) =
