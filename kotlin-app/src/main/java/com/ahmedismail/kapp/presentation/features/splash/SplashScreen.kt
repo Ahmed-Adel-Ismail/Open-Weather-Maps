@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import com.ahmedismail.kapp.R
 import com.ahmedismail.kapp.presentation.components.DisposablesHolder
-import com.ahmedismail.kapp.presentation.components.withValue
+import com.ahmedismail.kapp.presentation.components.toMutableLiveData
 import com.ahmedismail.kapp.presentation.components.withPorts
 import com.ahmedismail.kapp.presentation.features.home.HomeActivity
 import io.reactivex.Single
@@ -34,10 +34,10 @@ class SplashActivity : AppCompatActivity(), DisposablesHolder {
 }
 
 class SplashViewModel(
-        val loading: MutableLiveData<Boolean> = MutableLiveData<Boolean>().withValue(false),
-        val citiesCount: MutableLiveData<Int> = MutableLiveData<Int>(),
-        val error: MutableLiveData<Throwable> = MutableLiveData<Throwable>(),
-        val navigateToNextScreen: MutableLiveData<Boolean> = MutableLiveData<Boolean>().withValue(false))
+        val loading: MutableLiveData<Boolean> = false.toMutableLiveData,
+        val citiesCount: MutableLiveData<Int> = MutableLiveData(),
+        val error: MutableLiveData<Throwable> = MutableLiveData(),
+        val navigateToNextScreen: MutableLiveData<Boolean> = false.toMutableLiveData)
     : ViewModel()
 
 
