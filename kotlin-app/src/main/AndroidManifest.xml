@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.features.home.HomeActivity" />
+        <activity android:name=".presentation.features.favorites.FavoritesActivity" />
     </application>
 
 </manifest>

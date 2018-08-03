@@ -41,6 +41,9 @@ dependencies { configuration ->
     androidX(configuration)
     architectureComponents(configuration)
     customDependencies(configuration)
+
+
+
 }
 
 
@@ -51,7 +54,10 @@ private static void androidX(configuration) {
     configuration.implementation "androidx.core:core-ktx:$android_x_version"
 
     def constraint_layout_version = "1.1.2"
-    configuration.implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    configuration.implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+
+    def support_library_revision = "27.1.1"
+    configuration.implementation "com.android.support:recyclerview-v7:$support_library_revision"
 }
 
 private static void architectureComponents(configuration) {

@@ -19,6 +19,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.coroutines.experimental.delay
 
 class SplashActivity : AppCompatActivity(), DisposablesHolder {
 
@@ -42,28 +43,27 @@ class SplashViewModel(
 
 
 @SuppressLint("SetTextI18n")
-fun SplashActivity.bindViews() {
-    with(viewModel) {
+fun SplashActivity.bindViews() = with(viewModel) {
 
-        citiesCount.observe(this@bindViews, Observer { splash_label.text = "supported cities: $it" })
+    citiesCount.observe(this@bindViews, Observer { splash_label.text = "supported cities: $it" })
 
-        error.observe(this@bindViews, Observer { it?.run { splash_label.text = "error: $message" } })
+    error.observe(this@bindViews, Observer { it?.run { splash_label.text = "error: $message" } })
 
-        loading.observe(this@bindViews, Observer { splash_progress.visibility = if (it) VISIBLE else GONE })
+    loading.observe(this@bindViews, Observer { splash_progress.visibility = if (it) VISIBLE else GONE })
 
-        navigateToNextScreen.observe(this@bindViews, Observer {
-            if (it) {
-                startActivity(Intent(this@bindViews, HomeActivity::class.java))
-                finish()
-            }
-        })
-    }
+    navigateToNextScreen.observe(this@bindViews, Observer {
+        if (it) {
+            startActivity(Intent(this@bindViews, HomeActivity::class.java))
+            finish()
+        }
+    })
 }
+
 
 fun SplashActivity.loadCitiesCount() = withPorts {
     viewModel.takeUnless { it.loading.value!! }
             ?.apply { loading.postValue(true) }
-            ?.also { Thread.sleep(2000) }
+            ?.also { delay(2000) }
             ?.run { withDatabase { countCities(citiesTable::queryCitiesCount) } }
             ?.let(disposables::add)
 }
