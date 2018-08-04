@@ -1,7 +1,6 @@
 package com.ahmedismail.kapp.presentation.features.home
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmedismail.kapp.R
 import com.ahmedismail.kapp.domain.usecases.withSearchableName
 import com.ahmedismail.kapp.entities.City
@@ -61,7 +61,7 @@ private fun HomeActivity.startSearch() = withPorts {
 }
 
 
-private suspend fun HomeViewModel.searchForCity(cityFinder: (String) -> List<City>) {
+suspend fun HomeViewModel.searchForCity(cityFinder: (String) -> List<City>) {
     loading.postValue(true)
     searchInProgress?.cancel()
     searchInProgress = async {

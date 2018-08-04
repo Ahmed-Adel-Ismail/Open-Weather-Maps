@@ -3,9 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
+
+
     compileSdkVersion 28
-
-
 
     defaultConfig {
         applicationId "com.ahmedismail.app"
@@ -33,6 +33,22 @@ kotlin {
     }
 }
 
+private static void androidX(configuration) {
+
+    def android_x_version = "1.0.0-beta01"
+    configuration.implementation "com.google.android.material:material:$android_x_version"
+    configuration.implementation "androidx.appcompat:appcompat:$android_x_version"
+    configuration.implementation "androidx.core:core-ktx:$android_x_version"
+    configuration.implementation "androidx.recyclerview:recyclerview:$android_x_version"
+
+    def constraint_layout_version = "1.1.2"
+    configuration.implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+
+    def support_library_revision = "28.0.0-alpha1"
+
+}
+
+
 dependencies { configuration ->
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
@@ -44,20 +60,6 @@ dependencies { configuration ->
 
 
 
-}
-
-
-private static void androidX(configuration) {
-    def android_x_version = "1.0.0-beta01"
-    configuration.implementation "com.google.android.material:material:$android_x_version"
-    configuration.implementation "androidx.appcompat:appcompat:$android_x_version"
-    configuration.implementation "androidx.core:core-ktx:$android_x_version"
-
-    def constraint_layout_version = "1.1.2"
-    configuration.implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
-
-    def support_library_revision = "27.1.1"
-    configuration.implementation "com.android.support:recyclerview-v7:$support_library_revision"
 }
 
 private static void architectureComponents(configuration) {
