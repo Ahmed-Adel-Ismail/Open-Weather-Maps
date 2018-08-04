@@ -5,12 +5,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".App"
         android:theme="@style/AppTheme">
         <activity android:name=".presentation.features.splash.SplashActivity">
             <intent-filter>
@@ -19,7 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.features.home.HomeActivity" />
+        <activity
+            android:name=".presentation.features.home.HomeActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".presentation.features.favorites.FavoritesActivity" />
     </application>
 

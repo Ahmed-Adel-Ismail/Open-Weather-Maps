@@ -1,5 +1,6 @@
 package com.ahmedismail.kapp.presentation.features.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -40,8 +41,9 @@ class SearchItemViewHolder(private val view: View, private val context: Context)
     private val name by lazy { view.findViewById<TextView>(R.id.search_item_city_name_textView) }
     private val action by lazy { view.findViewById<Button>(R.id.search_item_city_add_to_favorites_button) }
 
+    @SuppressLint("SetTextI18n")
     fun invalidate(city: City?) {
-        name.text = city?.name ?: INVALID_NAME
+        name.text = "${city?.name ?: INVALID_NAME} - ${city?.country ?: INVALID_NAME}"
         action.setOnClickListener { context.sendBroadcast(intent(city)) }
     }
 

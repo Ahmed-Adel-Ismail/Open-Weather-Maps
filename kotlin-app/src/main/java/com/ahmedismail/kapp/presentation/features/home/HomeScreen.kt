@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmedismail.kapp.R
 import com.ahmedismail.kapp.domain.usecases.withSearchableName
 import com.ahmedismail.kapp.entities.City
+import com.ahmedismail.kapp.presentation.components.hideKeyboard
 import com.ahmedismail.kapp.presentation.components.toMutableLiveData
 import com.ahmedismail.kapp.presentation.components.withPorts
 import com.ahmedismail.kapp.presentation.components.withTextWatcher
@@ -46,11 +47,18 @@ private fun HomeActivity.bindViews() = with(viewModel) {
 
     home_search_editText.withTextWatcher(searchInput::setValue)
 
-    home_search_button.setOnClickListener { startSearch() }
+    home_search_button.setOnClickListener {
+        it.hideKeyboard()
+        startSearch()
+    }
 
     with(home_favorites_recycler_view) {
         layoutManager = LinearLayoutManager(this@bindViews)
         adapter = SearchResultsAdapter(searchResult, this@bindViews)
+        setOnTouchListener { _, _ ->
+            hideKeyboard()
+            return@setOnTouchListener false
+        }
     }
 
 }

@@ -42,7 +42,7 @@
         android:textColor="@android:color/white"
         android:textSize="26sp"
         android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/search_item_city_name_textView"
         app:layout_constraintHorizontal_bias="1.0"
