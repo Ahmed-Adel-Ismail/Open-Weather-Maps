@@ -55,10 +55,7 @@ private fun HomeActivity.bindViews() = with(viewModel) {
     with(home_favorites_recycler_view) {
         layoutManager = LinearLayoutManager(this@bindViews)
         adapter = SearchResultsAdapter(searchResult, this@bindViews)
-        setOnTouchListener { _, _ ->
-            hideKeyboard()
-            return@setOnTouchListener false
-        }
+        setOnTouchListener { _, _ -> hideKeyboard() }
     }
 
 }

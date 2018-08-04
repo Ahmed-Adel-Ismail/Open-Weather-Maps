@@ -24,8 +24,9 @@ fun TextView.withTextWatcher(afterTextChanged: (String) -> Unit) {
     })
 }
 
-fun View.hideKeyboard() {
+fun View.hideKeyboard(): Boolean {
     context.getSystemService(Context.INPUT_METHOD_SERVICE)
             ?.let { it as InputMethodManager }
             ?.hideSoftInputFromWindow(windowToken, 0)
+    return false
 }
